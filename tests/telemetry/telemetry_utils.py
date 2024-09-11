@@ -108,6 +108,7 @@ def listen_for_events(duthost, gnxi_path, ptfhost, filter_event_regex, op_file, 
     cmd = generate_client_cli(duthost=duthost, gnxi_path=gnxi_path, method=METHOD_SUBSCRIBE,
                               submode=SUBMODE_ONCHANGE, update_count=update_count, xpath="all[heartbeat=2]",
                               target="EVENTS", filter_event_regex=filter_event_regex)
+    cmd = f"timeout {thread_timeout} " + cmd
     results = [""]
     event_thread = InterruptableThread(target=listen_for_event, args=(ptfhost, cmd, results,))
     event_thread.start()
