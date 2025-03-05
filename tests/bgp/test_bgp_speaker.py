@@ -119,7 +119,12 @@ def common_setup_teardown(duthosts, rand_one_dut_hostname, ptfhost, localhost, t
     logger.info("ptf_ports: %s", ptf_ports)
 
     # Generate ipv6 nexthops
-    vlan_ipv6_entry = mg_facts['minigraph_vlan_interfaces'][1]
+    vlan_ipv6_entry = None
+    for vlan_intf in mg_facts['minigraph_vlan_interfaces']:
+        if ipaddress.ip_address(vlan_intf["addr"]).version == 6:
+            vlan_ipv6_entry = vlan_intf
+            break
+    assert vlan_ipv6_entry is not None, "No IPv6 address assigned for vlan interface"
     vlan_ipv6_prefix = "%s/%s" % (vlan_ipv6_entry["addr"], vlan_ipv6_entry["prefixlen"])
     vlan_ipv6_address = vlan_ipv6_entry["addr"]
     vlan_if_name = vlan_ipv6_entry['attachto']
