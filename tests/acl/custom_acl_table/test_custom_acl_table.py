@@ -285,8 +285,7 @@ def test_custom_acl(rand_selected_dut, rand_unselected_dut, tbinfo, ptfadapter,
                 if "dualtor-aa" in tbinfo["topo"]["name"]:
                     dst_port_indices.append(mg_facts_unselected_dut['minigraph_ptf_indices'][member])
     else:
-        topo = tbinfo["topo"]["type"]
-        upstream_neigh_type = get_upstream_neigh_type(topo)
+        upstream_neigh_type = get_upstream_neigh_type(tbinfo)
         dst_port_indices = get_neighbor_ptf_port_list(rand_selected_dut, upstream_neigh_type, tbinfo)
 
     test_pkts = build_testing_pkts(router_mac)
